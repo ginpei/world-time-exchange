@@ -6,3 +6,7 @@
   padding-right: 1rem;
   width: min(100%, 800px);
 }
+
+.ClockSection-timezoneInput:invalid {
+  background-color: pink;
+}
