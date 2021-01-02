@@ -118,6 +118,32 @@ function TimeInputSection() {
 
 function ClockSection() {
   const day = getTime();
+
+  /**
+   * @param {string} tzName
+   */
+  const onTzNameChange = (tzName) => {
+    setState({ timezone: tzName });
+  };
+
+  return html`
+    <section class="ClockSection">
+      <p>${formatTime(day)}</p>
+      <p>
+        Timezone:
+        ${TimezoneInput({ onChange: onTzNameChange, value: state.timezone })}
+      </p>
+    </section>
+  `;
+}
+
+/**
+ * @param {{
+ *   onChange: (tzName: string) => void;
+ *   value: string;
+ * }} props
+ */
+function TimezoneInput(props) {
   const id = `Clock-timezoneNames-${Math.random().toFixed(22).slice(2)}`;
 
   /**
@@ -141,27 +167,20 @@ function ClockSection() {
       throw new Error("Wrong element");
     }
 
-    const timezone = el.value;
-    setState({ timezone });
+    props.onChange(el.value);
   };
 
   return html`
-    <section class="ClockSection">
-      <p>${formatTime(day)}</p>
-      <p>
-        Timezone:
-        <input
-          .value=${state.timezone}
-          @focus=${onTimezoneFocus}
-          @input=${onTimezoneInput}
-          class="ClockSection-timezoneInput"
-          list=${id}
-          pattern=${timezonePattern}
-          required
-        />
-        <datalist id=${id}>${timezoneOptions}</datalist>
-      </p>
-    </section>
+    <input
+      .value=${props.value}
+      @focus=${onTimezoneFocus}
+      @input=${onTimezoneInput}
+      class="ClockSection-timezoneInput"
+      list=${id}
+      pattern=${timezonePattern}
+      required
+    />
+    <datalist id=${id}>${timezoneOptions}</datalist>
   `;
 }
 
