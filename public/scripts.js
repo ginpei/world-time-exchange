@@ -5,6 +5,7 @@ import dayjsPluginUtc from "./vendor/dayjs_plugin_utc.js";
 import { html, render } from "./vendor/LitHtml.js";
 
 /** @typedef {import("dayjs").Dayjs} Dayjs */
+/** @typedef {import("./timezone-names").TzData} TzData */
 
 /**
  * @typedef {{
@@ -158,6 +159,7 @@ function ClockSection() {
 /**
  * @param {{
  *   onChange: (tzName: string) => void;
+ *   options: TzData[];
  *   value: string;
  * }} props
  */
@@ -203,8 +205,8 @@ function TimezoneInput(props) {
 }
 
 /**
- * @param {import("./timezone-names.js").TzData} tz1
- * @param {import("./timezone-names.js").TzData} tz2
+ * @param {TzData} tz1
+ * @param {TzData} tz2
  * @returns {number}
  */
 function compareTz(tz1, tz2) {
