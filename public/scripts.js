@@ -8,8 +8,8 @@ import { html, render } from "./vendor/LitHtml.js";
 
 /**
  * @typedef {{
- *   time: Date;
- *   timezone: string;
+ *   departTime: Date;
+ *   destTzName: string;
  * }} State
  */
 
@@ -30,8 +30,8 @@ const timezoneOptions = tzAvailableDatabase.map(
 
 /** @type {State} */
 const state = {
-  time: new Date(),
-  timezone: "Asia/Tokyo",
+  departTime: new Date(),
+  destTzName: "Asia/Tokyo",
 };
 
 main();
@@ -78,8 +78,8 @@ function HomePage() {
 }
 
 function TimeInputSection() {
-  const date = dayjs(state.time).format("YYYY-MM-DD");
-  const time = dayjs(state.time).format("hh:mm");
+  const date = dayjs(state.departTime).format("YYYY-MM-DD");
+  const time = dayjs(state.departTime).format("hh:mm");
 
   /**
    * @param {InputEvent} event
@@ -91,11 +91,11 @@ function TimeInputSection() {
     }
 
     const [y, m, d] = el.value.split("-").map((v) => Number(v));
-    const newTime = dayjs(state.time)
+    const newTime = dayjs(state.departTime)
       .set("year", y)
       .set("month", m)
       .set("date", d);
-    setState({ time: newTime.toDate() });
+    setState({ departTime: newTime.toDate() });
   };
 
   /**
@@ -108,12 +108,14 @@ function TimeInputSection() {
     }
 
     const [hour, minute] = el.value.split(":").map((v) => Number(v));
-    const newTime = dayjs(state.time).set("hour", hour).set("minute", minute);
-    setState({ time: newTime.toDate() });
+    const newTime = dayjs(state.departTime)
+      .set("hour", hour)
+      .set("minute", minute);
+    setState({ departTime: newTime.toDate() });
   };
 
   const onNowClick = () => {
-    setState({ time: new Date() });
+    setState({ departTime: new Date() });
   };
 
   return html`
@@ -132,7 +134,7 @@ function ClockSection() {
    * @param {string} tzName
    */
   const onTzNameChange = (tzName) => {
-    setState({ timezone: tzName });
+    setState({ destTzName: tzName });
   };
 
   return html`
@@ -140,7 +142,7 @@ function ClockSection() {
       <p>${formatTime(day)}</p>
       <p>
         Timezone:
-        ${TimezoneInput({ onChange: onTzNameChange, value: state.timezone })}
+        ${TimezoneInput({ onChange: onTzNameChange, value: state.destTzName })}
       </p>
     </section>
   `;
@@ -214,14 +216,14 @@ function tzOffsetToNumber(offset) {
 
 function getTime() {
   try {
-    const day = dayjs(state.time).tz(state.timezone);
+    const day = dayjs(state.departTime).tz(state.destTzName);
     return day;
   } catch (error) {
     if (
       error instanceof Error &&
       error.message.startsWith("Invalid time zone specified:")
     ) {
-      return dayjs(state.time);
+      return dayjs(state.departTime);
     }
 
     throw error;
