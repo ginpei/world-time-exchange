@@ -1,4 +1,4 @@
-import { timezoneNames } from "./timezone-names.js";
+import { tzDatabase } from "./timezone-names.js";
 import dayjs from "./vendor/day.js";
 import dayjsPluginTimezone from "./vendor/dayjs_plugin_timezone.js";
 import dayjsPluginUtc from "./vendor/dayjs_plugin_utc.js";
@@ -17,6 +17,16 @@ import { html, render } from "./vendor/LitHtml.js";
 
 dayjs.extend(dayjsPluginUtc);
 dayjs.extend(dayjsPluginTimezone);
+
+const tzAvailableDatabase = tzDatabase
+  .filter((v) => v.status === "Canonical" && !v.name.startsWith("Etc/"))
+  .sort((v, u) => compareTz(v, u));
+const timezonePattern = tzAvailableDatabase.map((v) => v.name).join("|");
+const timezoneOptions = tzAvailableDatabase.map(
+  (tz) => html`<option value=${tz.name}>
+    ${tz.offset} ${tz.offset === tz.offsetDst ? "" : `(${tz.offsetDst} DST)`}
+  </option>`
+);
 
 /** @type {State} */
 const state = {
@@ -110,8 +120,6 @@ function ClockSection() {
   const day = getTime();
   const id = `Clock-timezoneNames-${Math.random().toFixed(22).slice(2)}`;
 
-  const timezonePattern = timezoneNames.join("|");
-
   /**
    * @param {FocusEvent} event
    */
@@ -151,14 +159,29 @@ function ClockSection() {
           pattern=${timezonePattern}
           required
         />
-        <datalist id=${id}>
-          ${timezoneNames.map(
-            (timezoneName) => html`<option value=${timezoneName}></option>`
-          )}
-        </datalist>
+        <datalist id=${id}>${timezoneOptions}</datalist>
       </p>
     </section>
   `;
+}
+
+/**
+ * @param {import("./timezone-names.js").TzData} tz1
+ * @param {import("./timezone-names.js").TzData} tz2
+ * @returns {number}
+ */
+function compareTz(tz1, tz2) {
+  return tzOffsetToNumber(tz1.offset) - tzOffsetToNumber(tz2.offset);
+}
+
+/**
+ * @param {string} offset e.g. `"+09:00"`. `"-08:00"`
+ * @returns {number}
+ */
+function tzOffsetToNumber(offset) {
+  // console.assert(offset.match(/^[-+]\d\d:\d\d$/), "offset format", offset);
+
+  return Number(offset.slice(0, 3)) * 100 + Number(offset.slice(4));
 }
 
 function getTime() {
