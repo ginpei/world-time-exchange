@@ -7,6 +7,23 @@
   width: min(100%, 800px);
 }
 
+/* HomePage */
+.HomePage-clockFrameSet {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.HomePage-clockFrame {
+  border: solid 1px lightgray;
+  flex: 1;
+}
+
+.HomePage-clockFrameHeading {
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
 .ClockSection-timezoneInput:invalid {
   background-color: pink;
 }

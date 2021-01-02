@@ -63,7 +63,16 @@ function HomePage() {
   return html`
     <div class="ui-container">
       <h1>Time Exchange</h1>
-      ${TimeInputSection()} ${ClockSection()}
+      <div class="HomePage-clockFrameSet">
+        <fieldset class="HomePage-clockFrame">
+          <legend class="HomePage-clockFrameHeading">From</legend>
+          ${TimeInputSection()}
+        </fieldset>
+        <fieldset class="HomePage-clockFrame">
+          <legend class="HomePage-clockFrameHeading">To</legend>
+          ${ClockSection()}
+        </fieldset>
+      </div>
     </div>
   `;
 }
