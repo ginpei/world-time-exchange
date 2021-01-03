@@ -2,7 +2,7 @@ import { tzDatabase } from "./timezone-names.js";
 import dayjs from "./vendor/day.js";
 import dayjsPluginTimezone from "./vendor/dayjs_plugin_timezone.js";
 import dayjsPluginUtc from "./vendor/dayjs_plugin_utc.js";
-import { html, render } from "./vendor/LitHtml.js";
+import { html, render } from "./vendor/lit-html.js";
 
 /** @typedef {import("dayjs").Dayjs} Dayjs */
 /** @typedef {import("./timezone-names").TzData} TzData */
