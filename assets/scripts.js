@@ -89,7 +89,7 @@ function setDest(day) {
 function HomePage() {
   return html`
     <div class="HomePage ui-container">
-      <h1>Time Exchange</h1>
+      <h1>World Time Exchange</h1>
       <div class="HomePage-clockFrameSet">
         <fieldset class="HomePage-clockFrame">
           <legend class="HomePage-clockFrameHeading">From</legend>
