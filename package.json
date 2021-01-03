@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "lint": "eslint . && tsc",
-    "start": "browser-sync start --watch --no-ui --server public"
+    "start": "browser-sync start --watch --no-ui --server ."
   },
   "devDependencies": {
     "@ginpei/eslintrc": "^1.0.0",
