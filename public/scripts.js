@@ -88,7 +88,7 @@ function setDest(day) {
 
 function HomePage() {
   return html`
-    <div class="ui-container">
+    <div class="HomePage ui-container">
       <h1>Time Exchange</h1>
       <div class="HomePage-clockFrameSet">
         <fieldset class="HomePage-clockFrame">
