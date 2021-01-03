@@ -105,6 +105,10 @@ function HomePage() {
 }
 
 function DepartTimeSection() {
+  const offset =
+    tzAvailableDatabase.find((v) => v.name === state.departTzName)?.offset ??
+    "N/A";
+
   /**
    * @param {InputEvent} event
    */
@@ -158,6 +162,10 @@ function DepartTimeSection() {
           options: tzAvailableDatabase,
         })}
       </label>
+      <label class="clock-label">
+        <span class="clock-labelText">Offset:</span>
+        <span>${offset}</span>
+      </label>
       <p>
         <button @click=${onNowClick}>Now</button>
       </p>
@@ -196,6 +204,10 @@ function DestTimeSection() {
           value: state.destTzName,
           options: tzAvailableDatabase,
         })}
+      </label>
+      <label class="clock-label">
+        <span class="clock-labelText">Offset:</span>
+        <span>${day.format("Z")}</span>
       </label>
       <p>
         <button @click=${onNowClick}>Now</button>
