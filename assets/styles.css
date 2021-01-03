@@ -26,6 +26,11 @@
   text-align: right;
 }
 
+.clock-container input,
+.clock-output {
+  font-family: monospace;
+}
+
 /* HomePage */
 .HomePage {
   margin-left: auto;

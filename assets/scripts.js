@@ -164,7 +164,7 @@ function DepartTimeSection() {
       </label>
       <label class="clock-label">
         <span class="clock-labelText">Offset:</span>
-        <span>${offset}</span>
+        <span class="clock-output">${offset}</span>
       </label>
       <p>
         <button @click=${onNowClick}>Now</button>
@@ -191,11 +191,11 @@ function DestTimeSection() {
     <section class="DestTimeSection clock-container">
       <label class="clock-label">
         <span class="clock-labelText">Date:</span>
-        ${day.format("L")}
+        <span class="clock-output">${day.format("L")}</span>
       </label>
       <label class="clock-label">
         <span class="clock-labelText">Time:</span>
-        ${day.format("LT")}
+        <span class="clock-output">${day.format("LT")}</span>
       </label>
       <label class="clock-label">
         <span class="clock-labelText">Timezone:</span>
@@ -207,7 +207,7 @@ function DestTimeSection() {
       </label>
       <label class="clock-label">
         <span class="clock-labelText">Offset:</span>
-        <span>${day.format("Z")}</span>
+        <span class="clock-output">${day.format("Z")}</span>
       </label>
       <p>
         <button @click=${onNowClick}>Now</button>
