@@ -31,7 +31,7 @@ const tzAvailableDatabase = tzDatabase
 const state = {
   departDate: "2021-01-01",
   departTime: "00:00",
-  departTzName: "Europe/London",
+  departTzName: "America/Vancouver",
   destTzName: "Asia/Tokyo",
 };
 
