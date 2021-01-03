@@ -40,7 +40,7 @@ main();
 // ----------------------------------------------------------------
 
 function main() {
-  setNow(dayjs());
+  setDepart(dayjs());
   update();
 }
 
@@ -62,14 +62,27 @@ function setState(updates) {
 }
 
 /**
- * @param {Dayjs} now
+ * @param {Dayjs} day
  */
-function setNow(now) {
-  const sNow = now.format("YYYY-MM-DD HH:mm");
-  const dayNowInTz = dayjs.tz(sNow, state.departTzName);
+function setDepart(day) {
+  const sDateTime = day.format("YYYY-MM-DD HH:mm");
+  const dayTz = dayjs.tz(sDateTime, state.departTzName);
   setState({
-    departDate: dayNowInTz.format("YYYY-MM-DD"),
-    departTime: dayNowInTz.format("HH:mm"),
+    departDate: dayTz.format("YYYY-MM-DD"),
+    departTime: dayTz.format("HH:mm"),
+  });
+}
+
+/**
+ * @param {Dayjs} day
+ */
+function setDest(day) {
+  const sDateTime = day.format("YYYY-MM-DD HH:mm");
+  const destTz = dayjs.tz(sDateTime, state.destTzName);
+  const departTz = destTz.tz(state.departTzName);
+  setState({
+    departDate: departTz.format("YYYY-MM-DD"),
+    departTime: departTz.format("HH:mm"),
   });
 }
 
@@ -124,7 +137,7 @@ function DepartTimeSection() {
   };
 
   const onNowClick = () => {
-    setNow(dayjs());
+    setDepart(dayjs());
   };
 
   return html`
@@ -162,6 +175,10 @@ function DestTimeSection() {
     setState({ destTzName: tzName });
   };
 
+  const onNowClick = () => {
+    setDest(dayjs());
+  };
+
   return html`
     <section class="DestTimeSection clock-container">
       <label class="clock-label">
@@ -180,6 +197,9 @@ function DestTimeSection() {
           options: tzAvailableDatabase,
         })}
       </label>
+      <p>
+        <button @click=${onNowClick}>Now</button>
+      </p>
     </section>
   `;
 }
