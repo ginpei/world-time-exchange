@@ -24,12 +24,6 @@ dayjs.extend(dayjsPluginTimezone);
 const tzAvailableDatabase = tzDatabase
   .filter((v) => v.status === "Canonical" && !v.name.startsWith("Etc/"))
   .sort((v, u) => compareTz(v, u));
-const timezonePattern = tzAvailableDatabase.map((v) => v.name).join("|");
-const timezoneOptions = tzAvailableDatabase.map(
-  (tz) => html`<option value=${tz.name}>
-    ${tz.offset} ${tz.offset === tz.offsetDst ? "" : `(${tz.offsetDst} DST)`}
-  </option>`
-);
 
 /** @type {State} */
 const state = {
@@ -128,6 +122,7 @@ function TimeInputSection() {
         ${TimezoneInput({
           onChange: onTzNameChange,
           value: state.departTzName,
+          options: tzAvailableDatabase,
         })}
       </p>
       <button @click=${onNowClick}>Now</button>
@@ -150,7 +145,11 @@ function ClockSection() {
       <p>${formatTime(day)}</p>
       <p>
         Timezone:
-        ${TimezoneInput({ onChange: onTzNameChange, value: state.destTzName })}
+        ${TimezoneInput({
+          onChange: onTzNameChange,
+          value: state.destTzName,
+          options: tzAvailableDatabase,
+        })}
       </p>
     </section>
   `;
@@ -197,10 +196,17 @@ function TimezoneInput(props) {
       @input=${onTimezoneInput}
       class="ClockSection-timezoneInput"
       list=${id}
-      pattern=${timezonePattern}
+      pattern=${props.options.map((v) => v.name).join("|")}
       required
     />
-    <datalist id=${id}>${timezoneOptions}</datalist>
+    <datalist id=${id}>
+      ${props.options.map(
+        (tz) => html`<option value=${tz.name}>
+          ${tz.offset}
+          ${tz.offset === tz.offsetDst ? "" : `(${tz.offsetDst} DST)`}
+        </option>`
+      )}
+    </datalist>
   `;
 }
 
