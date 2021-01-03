@@ -40,6 +40,7 @@ main();
 // ----------------------------------------------------------------
 
 function main() {
+  setNow(dayjs());
   update();
 }
 
@@ -58,6 +59,18 @@ function update() {
 function setState(updates) {
   Object.assign(state, updates);
   update();
+}
+
+/**
+ * @param {Dayjs} now
+ */
+function setNow(now) {
+  const sNow = now.format("YYYY-MM-DD HH:mm");
+  const dayNowInTz = dayjs.tz(sNow, state.departTzName);
+  setState({
+    departDate: dayNowInTz.format("YYYY-MM-DD"),
+    departTime: dayNowInTz.format("HH:mm"),
+  });
 }
 
 function HomePage() {
@@ -111,8 +124,7 @@ function DepartTimeSection() {
   };
 
   const onNowClick = () => {
-    // setState({ departTime: new Date() });
-    throw new Error("Not implemented yet");
+    setNow(dayjs());
   };
 
   return html`
