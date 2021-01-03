@@ -163,7 +163,7 @@ function ClockSection() {
  * }} props
  */
 function TimezoneInput(props) {
-  const id = `Clock-timezoneNames-${Math.random().toFixed(22).slice(2)}`;
+  const id = `TimezoneInput-${Math.random().toFixed(22).slice(2)}`;
 
   /**
    * @param {FocusEvent} event
@@ -214,7 +214,7 @@ function TimezoneInput(props) {
       @blur=${onTimezoneBlur}
       @focus=${onTimezoneFocus}
       @input=${onTimezoneInput}
-      class="ClockSection-timezoneInput"
+      class="TimezoneInput"
       list=${id}
       pattern=${props.options.map((v) => v.name).join("|")}
       required
