@@ -180,7 +180,6 @@ function DestTimeSection() {
           options: tzAvailableDatabase,
         })}
       </label>
-      <p>${formatTime(day)}</p>
     </section>
   `;
 }
@@ -294,12 +293,4 @@ function getTime() {
 
     throw error;
   }
-}
-
-/**
- * @param {Dayjs} day
- * @returns {string}
- */
-function formatTime(day) {
-  return day.format("YYYY/MM/DD HH:mm:ss Z");
 }
