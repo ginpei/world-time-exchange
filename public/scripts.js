@@ -168,13 +168,29 @@ function TimezoneInput(props) {
   /**
    * @param {FocusEvent} event
    */
+  const onTimezoneBlur = (event) => {
+    const el = event.currentTarget;
+    if (!el || !(el instanceof HTMLInputElement)) {
+      throw new Error("Wrong element");
+    }
+
+    const tzName = el.value;
+    if (props.options.some((v) => v.name === tzName)) {
+      props.onChange(tzName);
+    }
+    el.value = props.value;
+  };
+
+  /**
+   * @param {FocusEvent} event
+   */
   const onTimezoneFocus = (event) => {
     const el = event.currentTarget;
     if (!el || !(el instanceof HTMLInputElement)) {
       throw new Error("Wrong element");
     }
 
-    el.select();
+    el.value = "";
   };
 
   /**
@@ -186,12 +202,16 @@ function TimezoneInput(props) {
       throw new Error("Wrong element");
     }
 
-    props.onChange(el.value);
+    const tzName = el.value;
+    if (props.options.some((v) => v.name === tzName)) {
+      props.onChange(tzName);
+    }
   };
 
   return html`
     <input
       .value=${props.value}
+      @blur=${onTimezoneBlur}
       @focus=${onTimezoneFocus}
       @input=${onTimezoneInput}
       class="ClockSection-timezoneInput"

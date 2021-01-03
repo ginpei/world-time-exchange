@@ -23,7 +23,3 @@
   font-family: sans-serif;
   font-weight: bold;
 }
-
-.ClockSection-timezoneInput:invalid {
-  background-color: pink;
-}
