@@ -1,5 +1,6 @@
 import { tzDatabase } from "./timezone-names.js";
 import dayjs from "./vendor/day.js";
+import dayjsPluginLocalizedFormat from "./vendor/dayjs_plugin_localizedFormat.js";
 import dayjsPluginTimezone from "./vendor/dayjs_plugin_timezone.js";
 import dayjsPluginUtc from "./vendor/dayjs_plugin_utc.js";
 import { html, render } from "./vendor/lit-html.js";
@@ -20,6 +21,7 @@ import { html, render } from "./vendor/lit-html.js";
 
 dayjs.extend(dayjsPluginUtc);
 dayjs.extend(dayjsPluginTimezone);
+dayjs.extend(dayjsPluginLocalizedFormat);
 
 const tzAvailableDatabase = tzDatabase
   .filter((v) => v.status === "Canonical" && !v.name.startsWith("Etc/"))
@@ -65,18 +67,18 @@ function HomePage() {
       <div class="HomePage-clockFrameSet">
         <fieldset class="HomePage-clockFrame">
           <legend class="HomePage-clockFrameHeading">From</legend>
-          ${TimeInputSection()}
+          ${DepartTimeSection()}
         </fieldset>
         <fieldset class="HomePage-clockFrame">
           <legend class="HomePage-clockFrameHeading">To</legend>
-          ${ClockSection()}
+          ${DestTimeSection()}
         </fieldset>
       </div>
     </div>
   `;
 }
 
-function TimeInputSection() {
+function DepartTimeSection() {
   /**
    * @param {InputEvent} event
    */
@@ -114,23 +116,31 @@ function TimeInputSection() {
   };
 
   return html`
-    <section class="TimeInputSection">
-      <input .value=${state.departDate} @input=${onDateInput} type="date" />
-      <input .value=${state.departTime} @input=${onTimeInput} type="time" />
-      <p>
-        Timezone:
+    <section class="DepartTimeSection clock-container">
+      <label class="clock-label">
+        <span class="clock-labelText">Date:</span>
+        <input .value=${state.departDate} @input=${onDateInput} type="date" />
+      </label>
+      <label class="clock-label">
+        <span class="clock-labelText">Time:</span>
+        <input .value=${state.departTime} @input=${onTimeInput} type="time" />
+      </label>
+      <label class="clock-label">
+        <span class="clock-labelText">Timezone:</span>
         ${TimezoneInput({
           onChange: onTzNameChange,
           value: state.departTzName,
           options: tzAvailableDatabase,
         })}
+      </label>
+      <p>
+        <button @click=${onNowClick}>Now</button>
       </p>
-      <button @click=${onNowClick}>Now</button>
     </section>
   `;
 }
 
-function ClockSection() {
+function DestTimeSection() {
   const day = getTime();
 
   /**
@@ -141,16 +151,24 @@ function ClockSection() {
   };
 
   return html`
-    <section class="ClockSection">
-      <p>${formatTime(day)}</p>
-      <p>
-        Timezone:
+    <section class="DestTimeSection clock-container">
+      <label class="clock-label">
+        <span class="clock-labelText">Date:</span>
+        ${day.format("L")}
+      </label>
+      <label class="clock-label">
+        <span class="clock-labelText">Time:</span>
+        ${day.format("LT")}
+      </label>
+      <label class="clock-label">
+        <span class="clock-labelText">Timezone:</span>
         ${TimezoneInput({
           onChange: onTzNameChange,
           value: state.destTzName,
           options: tzAvailableDatabase,
         })}
-      </p>
+      </label>
+      <p>${formatTime(day)}</p>
     </section>
   `;
 }

@@ -7,6 +7,23 @@
   width: min(100%, 800px);
 }
 
+.clock-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.clock-label {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 5rem auto;
+  height: 1.5rem;
+}
+
+.clock-labelText {
+  text-align: right;
+}
+
 /* HomePage */
 .HomePage-clockFrameSet {
   display: flex;
